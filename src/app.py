@@ -41,7 +41,7 @@ def index():
     all_variable = ''
     for i in range(1, size_of_field_to_brute):
         all_variable += f' var(--value-{i},none),'
-    css += f"\ninput{{\n\tbackground: {all_variable[:-1]} ;\n}}"
+    css += f"\n*{{\n\tbackground: {all_variable[:-1]} ;\n}}"
     return css, 200, {'Content-Type': 'text/css'}
 
 
