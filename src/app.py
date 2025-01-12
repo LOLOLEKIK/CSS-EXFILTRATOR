@@ -12,7 +12,7 @@ startbalise = 'html:has('
 attacker_url = 'http://<IP>:5001'
 target_balise = 'input[type="text"][name="csrf"]'
 size_of_field_to_brute = 100
-entry_point = '/start.css'
+entry_point = '/start'
 ######################################################################################
 
 
